@@ -1,0 +1,77 @@
+<head>
+	<title>Meteoro</title>
+</head>
+
+<body>
+	{{> navbar}}
+	<div class="container">
+		<h1>Meteoro - Pomodoro App for Meteor!</h1>
+		{{> pomodoro }}
+		<hr />
+		{{> oldPomodoros }}
+	</div>
+</body>
+
+<template name="navbar">
+	<nav class="navbar navbar-default" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">{{projectName}}</a>
+			</div>
+			<div class="collapse navbar-collapse">
+				<p class="navbar-text navbar-right">{{> login}}</p>
+			</div>
+		</div>
+	</nav>
+</template>
+
+<template name="pomodoro">
+	<div class="pomodoro-container">
+		<div class="pomodoro-time">
+			<div class="pomodoro-tomato-pic"></div>
+			<div class="pomodoro-tomato-empty-pic" style="height: {{pomodoroHeight 500}}px"></div>
+			<div class="pomodoro-current-time">{{currentPomodoroTime}}</div>
+		</div>
+		<div class="pomodoro-buttons">
+			<button type="button" class="btn btn-lg btn-success pomodoro-start {{#if pomodoroTimer}} disabled {{/if}}">Start</button>
+			<button type="button" class="btn btn-lg btn-danger pomodoro-stop {{#unless pomodoroTimer}} disabled {{/unless}}">Stop</button>
+			<button type="button" class="btn btn-lg btn-default pomodoro-reset">Reset</button>
+		</div>
+		<div class="pomodoro-buttons pomodoro-buttons-types">
+			<button type="button" class="btn btn-lg btn-danger pomodoro-change-type" data-type="POMODORO_TIME">Pomodoro</button>
+			<button type="button" class="btn btn-lg btn-default pomodoro-change-type" data-type="SHORT_BREAK_TIME">Short Break</button>
+			<button type="button" class="btn btn-lg btn-default pomodoro-change-type" data-type="LONG_BREAK_TIME">Long Break</button>
+		</div>
+	</div>	
+</template>
+
+<template name="oldPomodoros">
+	{{#if pomodoros}}
+		<ul>
+			{{#each pomodoros}}
+				<li>{{text}} - {{createdAt}} <i class="delete_pomodoro">X</i></li>
+			{{/each}}
+		</ul>
+	{{/if}}
+</template>
+
+<template name="login">
+	<div id="login-buttons">
+	{{#if currentUser}}
+		Hello, {{currentUser.profile.name}}
+		<button id='logout-button' class='small'>Sign Out</button>
+	{{else}}
+		<div class="service-login-buttons">
+			{{#each services}}
+				{{> _loginButtonsLoggedOutSingleLoginButton}}
+			{{/each}}
+		</div>
+	{{/if}}
+	</div>
+</template>

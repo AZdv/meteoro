@@ -1,0 +1,45 @@
+.login-text-and-button {
+	margin-bottom: 10px;
+}
+.login-button {
+	cursor: pointer;
+}
+#login-buttons-image-twitter {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	vertical-align: middle;
+}
+.pomodoro-container {
+	text-align: center;
+}
+.pomodoro-time {
+	width: 500px;
+	height: 500px;
+	margin: 20px auto;
+}
+.pomodoro-tomato-empty-pic, .pomodoro-tomato-pic {
+	position: absolute;
+	width: 500px;
+	height: 500px;
+}
+.pomodoro-current-time {
+	position: relative;
+	top: 40%;
+	font-size: 80px;
+}
+.pomodoro-tomato-pic {
+	background-image: url( 'images/tomato.png' );
+}
+.pomodoro-tomato-empty-pic {
+	background-image: url( 'images/tomato_empty.png' );
+}
+.pomodoro-buttons button {
+	margin-right: 20px;
+}
+.pomodoro-buttons button:last-of-type {
+	margin-right: 0;
+}
+.pomodoro-buttons-types {
+	margin-top: 30px;
+}
