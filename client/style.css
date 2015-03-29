@@ -1,3 +1,7 @@
+.navbar-text {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
 .login-text-and-button {
 	margin-bottom: 10px;
 }
@@ -42,6 +46,14 @@
 }
 .pomodoro-buttons-types {
 	margin-top: 30px;
+}
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn.active.focus {
+	outline: 0;
 }
 
 .alert {
