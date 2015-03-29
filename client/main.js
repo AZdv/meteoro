@@ -4,10 +4,14 @@ Session.setDefault( 'timerType', POMODORO_TIME.toTimerFormat() );
 Session.setDefault( 'totalTime', Session.get( 'timerType' ) );
 Session.setDefault( 'currentPomodoroTime', Session.get( 'timerType' ) );
 Session.setDefault( 'timerStatus', 0 );
+Session.setDefault( 'alertMsg', null );
 
 Template.body.helpers({
 	projectName: function() {
 		return projectName;
+	},
+	alertMsg: function() {
+		return Session.get( 'alertMsg' );
 	}
 });
 
@@ -34,9 +38,23 @@ Template.pomodoro.events({
 		if ( ! Session.get( 'pomodoroTimer' ) ) {
 			Session.set( 'pomodoroTimer', setInterval( function() {
 				currentPomodoroTime = Session.get( 'currentPomodoroTime' ).fromTimerFormat();
-				if ( currentPomodoroTime == 0 )
+				if ( currentPomodoroTime == 0 ) {
 					clearInterval( Session.get( 'pomodoroTimer' ) );
-				else
+					switch ( Session.get( 'timerType' ).fromTimerFormat() ) {
+						case POMODORO_TIME:
+							Session.set( 'alertMsg', '<strong>Well done!</strong> 1 Pomodoro Finished!' );
+							break;
+						case SHORT_BREAK_TIME:
+							Session.set( 'alertMsg', '1 Short Break Finished!' );
+							break;
+						case LONG_BREAK_TIME:
+							Session.set( 'alertMsg', '1 Long Break Finished!' );
+							break;
+					}
+					setTimeout( function() {
+						Session.set( 'alertMsg', null );
+					}, 3 * MILLISECONDS_IN_SECONDS);
+				} else
 					Session.set( 'currentPomodoroTime', ( currentPomodoroTime - 1 ).toTimerFormat() );
 
 			}, 1 * MILLISECONDS_IN_SECONDS) );

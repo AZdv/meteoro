@@ -5,6 +5,9 @@
 <body>
 	{{> navbar}}
 	<div class="container">
+		{{#if alertMsg }}
+			<div class="alert alert-success" role="alert">{{{alertMsg}}}</div>
+		{{/if}}
 		<h1>Meteoro - Pomodoro App for Meteor!</h1>
 		{{> pomodoro }}
 		<hr />
