@@ -30,7 +30,10 @@ Template.pomodoro.helpers({
 	},
 	pomodoroTimer: function() {
 		return Session.get( 'pomodoroTimer' );
-	}
+	},
+	timerTypeCompare: function( type ) {
+		return Session.get( 'timerType' ).fromTimerFormat() == window[ type ];
+	},
 })
 
 Template.pomodoro.events({

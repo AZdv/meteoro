@@ -47,9 +47,9 @@
 			<button type="button" class="btn btn-lg btn-default pomodoro-reset">Reset</button>
 		</div>
 		<div class="pomodoro-buttons pomodoro-buttons-types">
-			<button type="button" class="btn btn-lg btn-danger pomodoro-change-type" data-type="POMODORO_TIME">Pomodoro</button>
-			<button type="button" class="btn btn-lg btn-default pomodoro-change-type" data-type="SHORT_BREAK_TIME">Short Break</button>
-			<button type="button" class="btn btn-lg btn-default pomodoro-change-type" data-type="LONG_BREAK_TIME">Long Break</button>
+			<button type="button" class="btn btn-lg btn-danger pomodoro-change-type {{#if timerTypeCompare 'POMODORO_TIME' }} disabled {{/if}}" data-type="POMODORO_TIME">Pomodoro</button>
+			<button type="button" class="btn btn-lg btn-default pomodoro-change-type {{#if timerTypeCompare 'SHORT_BREAK_TIME' }} disabled {{/if}}" data-type="SHORT_BREAK_TIME">Short Break</button>
+			<button type="button" class="btn btn-lg btn-default pomodoro-change-type {{#if timerTypeCompare 'LONG_BREAK_TIME' }} disabled {{/if}}" data-type="LONG_BREAK_TIME">Long Break</button>
 		</div>
 	</div>	
 </template>
