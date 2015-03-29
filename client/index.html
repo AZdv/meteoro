@@ -6,9 +6,8 @@
 	{{> navbar}}
 	<div class="container">
 		{{#if alertMsg }}
-			<div class="alert alert-success" role="alert">{{{alertMsg}}}</div>
+			<div class="alert alert-success text-center" role="alert">{{{alertMsg}}}</div>
 		{{/if}}
-		<h1>Meteoro - Pomodoro App for Meteor!</h1>
 		{{> pomodoro }}
 		<hr />
 		{{> oldPomodoros }}
@@ -25,7 +24,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">{{projectName}}</a>
+				<a class="navbar-brand" href="#">{{projectName}} - {{projectSlogan}}</a>
 			</div>
 			<div class="collapse navbar-collapse">
 				<p class="navbar-text navbar-right">{{> login}}</p>
@@ -71,9 +70,12 @@
 		<button id='logout-button' class='small'>Sign Out</button>
 	{{else}}
 		<div class="service-login-buttons">
-			{{#each services}}
-				{{> _loginButtonsLoggedOutSingleLoginButton}}
-			{{/each}}
+			<div class="login-text-and-button">
+				<div class="login-button single-login-button" id="login-buttons-twitter">
+					<div class="login-image" id="login-buttons-image-twitter"></div>
+					<span class="text-besides-image sign-in-text-twitter">Sign in to save your Pomodoros</span>
+				</div>
+			</div>
 		</div>
 	{{/if}}
 	</div>

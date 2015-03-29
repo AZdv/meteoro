@@ -18,7 +18,10 @@ Template.body.helpers({
 Template.navbar.helpers({
 	projectName: function() {
 		return projectName;
-	}	
+	},
+	projectSlogan: function() {
+		return projectSlogan;
+	}
 })
 
 Template.pomodoro.helpers({
@@ -101,6 +104,25 @@ Template.oldPomodoros.events({
 Template.login.events({
 	'click #logout-button': function ( e ) {
 		Meteor.logout();
+	},
+	'click .login-button': function( e ) {
+		var serviceName = e.currentTarget.id.replace( 'login-buttons-', '' );
+		Accounts._loginButtonsSession.resetMessages();
+
+		// XXX Service providers should be able to specify their
+		// `Meteor.loginWithX` method name.
+		var loginWithService = Meteor["loginWith" +	(serviceName === 'meteor-developer' ? 'MeteorDeveloperAccount' : capitalize(serviceName))];
+		var options = {}; // use default scope unless specified
+		if (Accounts.ui._options.requestPermissions[serviceName])
+			options.requestPermissions = Accounts.ui._options.requestPermissions[serviceName];
+		if (Accounts.ui._options.requestOfflineToken[serviceName])
+			options.requestOfflineToken = Accounts.ui._options.requestOfflineToken[serviceName];
+		if (Accounts.ui._options.forceApprovalPrompt[serviceName])
+			options.forceApprovalPrompt = Accounts.ui._options.forceApprovalPrompt[serviceName];
+
+		loginWithService(options, function (err) {
+			loginResultCallback(serviceName, err);
+		});
 	}
 })
 Template.login.helpers({
