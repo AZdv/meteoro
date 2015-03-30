@@ -1,3 +1,3 @@
 Meteor.publish( 'pomodoros', function() {
-	return Pomodoros.find();
+	return Pomodoros.find({ userId: this.userId });
 });
