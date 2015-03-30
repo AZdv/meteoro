@@ -56,9 +56,15 @@
 <template name="oldPomodoros">
 	{{#if pomodoros}}
 		<ul>
-			{{#each pomodoros}}
-				<li>{{text}} - {{createdAt}} <i class="delete_pomodoro">X</i></li>
-			{{/each}}
+			{{#if pomodoros.pomodoros }}
+				<li>{{pomodoros.pomodoros}} Pomodoros Completed</li>
+			{{/if}}
+			{{#if pomodoros.shortbreaks }}
+				<li>{{pomodoros.shortbreaks}} Short Breaks Completed</li>
+			{{/if}}
+			{{#if pomodoros.longbreaks }}
+				<li>{{pomodoros.longbreaks}} Long Breaks Completed</li>
+			{{/if}}
 		</ul>
 	{{/if}}
 </template>

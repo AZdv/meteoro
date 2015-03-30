@@ -1,4 +1,3 @@
-// counter starts at 0
 Session.setDefault('counter', 0);
 Session.setDefault( 'timerType', POMODORO_TIME.toTimerFormat() );
 Session.setDefault( 'totalTime', Session.get( 'timerType' ) );
@@ -38,23 +37,32 @@ Template.pomodoro.helpers({
 		return Session.get( 'timerType' ).fromTimerFormat() == window[ type ];
 	},
 })
-
+var resetPomodoro = function() {
+	if ( Session.get( 'pomodoroTimer' ) ) {
+		clearInterval( Session.get( 'pomodoroTimer' ) );
+		Session.set( 'pomodoroTimer', false )
+	}
+	Session.set( 'currentPomodoroTime', Session.get( 'timerType' ) );
+}
 Template.pomodoro.events({
 	'click .pomodoro-start': function( e ) {
 		if ( ! Session.get( 'pomodoroTimer' ) ) {
 			Session.set( 'pomodoroTimer', setInterval( function() {
 				currentPomodoroTime = Session.get( 'currentPomodoroTime' ).fromTimerFormat();
 				if ( currentPomodoroTime == 0 ) {
-					clearInterval( Session.get( 'pomodoroTimer' ) );
+					resetPomodoro();
 					switch ( Session.get( 'timerType' ).fromTimerFormat() ) {
 						case POMODORO_TIME:
 							Session.set( 'alertMsg', '<strong>Well done!</strong> 1 Pomodoro Finished!' );
+							Meteor.call( 'addPomodoro', 'pomodoros' );
 							break;
 						case SHORT_BREAK_TIME:
 							Session.set( 'alertMsg', '1 Short Break Finished!' );
+							Meteor.call( 'addPomodoro', 'shortbreaks' );
 							break;
 						case LONG_BREAK_TIME:
 							Session.set( 'alertMsg', '1 Long Break Finished!' );
+							Meteor.call( 'addPomodoro', 'longbreaks' );
 							break;
 					}
 					setTimeout( function() {
@@ -72,11 +80,7 @@ Template.pomodoro.events({
 		Session.set( 'pomodoroTimer', false )
 	},
 	'click .pomodoro-reset': function( e ) {
-		if ( Session.get( 'pomodoroTimer' ) ) {
-			clearInterval( Session.get( 'pomodoroTimer' ) );
-			Session.set( 'pomodoroTimer', false )
-		}
-		Session.set( 'currentPomodoroTime', Session.get( 'timerType' ) );
+		resetPomodoro();
 	},
 	'click .pomodoro-change-type': function( e ) {
 		if ( window[ e.target.getAttribute( 'data-type' ) ] ) {
@@ -91,15 +95,14 @@ Template.pomodoro.events({
 
 Template.oldPomodoros.helpers({
 	pomodoros: function() {
-		return Pomodoros.find({}, {sort: {createdAt: -1 }});
+		if ( Meteor.userId() ) {
+			return Pomodoros.findOne({ userId: Meteor.userId() });
+		} else {
+			return Session.get( 'profile' );
+		}
 	}
 })
 
-Template.oldPomodoros.events({
-	'click .delete_pomodoro': function ( e ) {
-		Pomodoros.remove( this._id );
-	}
-});
 
 Template.login.events({
 	'click #logout-button': function ( e ) {
