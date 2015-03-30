@@ -4,6 +4,7 @@ Session.setDefault( 'totalTime', Session.get( 'timerType' ) );
 Session.setDefault( 'currentPomodoroTime', Session.get( 'timerType' ) );
 Session.setDefault( 'timerStatus', 0 );
 Session.setDefault( 'alertMsg', null );
+Session.setDefault( 'profile', {} );
 
 Template.body.helpers({
 	projectName: function() {
@@ -103,6 +104,17 @@ Template.oldPomodoros.helpers({
 	}
 })
 
+var addSessiontoUser = function() {
+	if ( Meteor.userId() ) {
+		Meteor.call( 'getUserProfile', function( error, userProfile ) {
+			var sessionProfile = Session.get( 'profile' );
+			userProfile = typeof userProfile == 'undefined' ? {} : userProfile;
+			for ( i in sessionProfile )
+				userProfile[ i ] = userProfile[ i ] ? userProfile[ i ] + sessionProfile[ i ] : sessionProfile[ i ];
+			Meteor.call( 'updateUserProfile', userProfile );
+		} );
+	}
+}
 
 Template.login.events({
 	'click #logout-button': function ( e ) {
@@ -124,7 +136,7 @@ Template.login.events({
 			options.forceApprovalPrompt = Accounts.ui._options.forceApprovalPrompt[serviceName];
 
 		loginWithService(options, function (err) {
-			loginResultCallback(serviceName, err);
+			addSessiontoUser(); //After login is done, move the session info to the db
 		});
 	}
 })
