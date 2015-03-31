@@ -6,6 +6,9 @@ Session.setDefault( 'timerStatus', 0 );
 Session.setDefault( 'alertMsg', null );
 Session.setDefault( 'profile', {} );
 
+Template.body.onRendered(function() {
+	document.oldTitle = document.title;
+});
 Template.body.helpers({
 	projectName: function() {
 		return projectName;
@@ -44,6 +47,28 @@ var resetPomodoro = function() {
 		Session.set( 'pomodoroTimer', false )
 	}
 	Session.set( 'currentPomodoroTime', Session.get( 'timerType' ) );
+
+	if ( document.oldTitle ) {
+		document.title = document.oldTitle;
+	}
+}
+var getTimerType = function() {
+	var timerType = {};
+	switch ( Session.get( 'timerType' ).fromTimerFormat() ) {
+		case POMODORO_TIME:
+			timerType.key = 'pomodoros';
+			timerType.name = 'Pomodoro';
+			break;
+		case SHORT_BREAK_TIME:
+			timerType.key = 'shortbreaks';
+			timerType.name = 'Short Break';
+			break;
+		case LONG_BREAK_TIME:
+			timerType.key = 'longbreaks';
+			timerType.name = 'Long Break';
+			break;
+	}
+	return timerType;
 }
 Template.pomodoro.events({
 	'click .pomodoro-start': function( e ) {
@@ -52,25 +77,16 @@ Template.pomodoro.events({
 				currentPomodoroTime = Session.get( 'currentPomodoroTime' ).fromTimerFormat();
 				if ( currentPomodoroTime == 0 ) {
 					resetPomodoro();
-					switch ( Session.get( 'timerType' ).fromTimerFormat() ) {
-						case POMODORO_TIME:
-							Session.set( 'alertMsg', '<strong>Well done!</strong> 1 Pomodoro Finished!' );
-							Meteor.call( 'addPomodoro', 'pomodoros' );
-							break;
-						case SHORT_BREAK_TIME:
-							Session.set( 'alertMsg', '1 Short Break Finished!' );
-							Meteor.call( 'addPomodoro', 'shortbreaks' );
-							break;
-						case LONG_BREAK_TIME:
-							Session.set( 'alertMsg', '1 Long Break Finished!' );
-							Meteor.call( 'addPomodoro', 'longbreaks' );
-							break;
-					}
+					var timerType = getTimerType();
+					Session.set( 'alertMsg', ( timerType.name == 'Pomodoros' ? '<strong>Well done!</strong> ' : '' ) + '1 ' + timerType.name + ' Finished!' );
+					Meteor.call( 'addPomodoro', timerType.key );
 					setTimeout( function() {
 						Session.set( 'alertMsg', null );
 					}, 3 * MILLISECONDS_IN_SECONDS);
-				} else
+				} else {
 					Session.set( 'currentPomodoroTime', ( currentPomodoroTime - 1 ).toTimerFormat() );
+					document.title = getTimerType().name + ' ' + Session.get( 'currentPomodoroTime' );;
+				}
 
 			}, 1 * MILLISECONDS_IN_SECONDS) );
 
