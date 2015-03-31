@@ -1,6 +1,7 @@
 Meteoro - Pomodoro App on Meteor
 --------------------------------
 
+**[See Live Version](http://mtro.meteor.com/)**
 The idea is simple, this app follows the original Pomodoro principles:
 
  - Choose a task
