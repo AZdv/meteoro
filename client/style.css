@@ -1,3 +1,12 @@
+#logo {
+	background-image: url( 'images/logo.png' );
+	background-repeat: no-repeat;
+	display: inline-block;
+	vertical-align: super;
+	width: 150px;
+	height: 28px;
+	text-indent: -9999px;
+}
 .navbar-text {
 	margin-top: 10px;
 	margin-bottom: 10px;
