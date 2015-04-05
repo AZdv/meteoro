@@ -1,5 +1,6 @@
 <head>
 	<title>Meteoro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
@@ -11,7 +12,7 @@
 		{{> pomodoro }}
 		<hr />
 		{{> oldPomodoros }}
-		<a href="https://github.com/AZdv/meteoro" target="_blank" class="github-fork">
+		<a href="https://github.com/AZdv/meteoro" target="_blank" class="github-fork hidden-xs">
 			<img src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png">
 		</a>
 	</div>
@@ -27,7 +28,10 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#"><span id="logo">{{projectName}}</span> - {{projectSlogan}}</a>
+				<a class="navbar-brand" href="#">
+                    <span id="logo">{{projectName}}</span>
+                    <span class="hidden-xs"> - {{projectSlogan}}</span>
+                </a>
 			</div>
 			<div class="collapse navbar-collapse">
 				<p class="navbar-text navbar-right">{{> login}}</p>
@@ -38,20 +42,34 @@
 
 <template name="pomodoro">
 	<div class="pomodoro-container">
-		<div class="pomodoro-time">
-			<div class="pomodoro-tomato-pic"></div>
-			<div class="pomodoro-tomato-empty-pic" style="height: {{pomodoroHeight 500}}px"></div>
-			<div class="pomodoro-current-time">{{currentPomodoroTime}}</div>
+        <div class="hack">
+            <div class="pomodoro-time">
+                <div class="pomodoro-tomato-pic"></div>
+                <div class="pomodoro-tomato-empty-pic" style="height: {{pomodoroHeight 500}}px"></div>
+                <div class="pomodoro-current-time">{{currentPomodoroTime}}</div>
+            </div>
+        </div>
+		<div class="pomodoro-buttons row">
+            <div class="col-sm-4 form-group">
+                <button type="button" class="btn btn-block btn-lg btn-success pomodoro-start {{#if pomodoroTimer}} disabled {{/if}}">Start</button>
+            </div>
+            <div class="col-sm-4 form-group">
+                <button type="button" class="btn btn-block btn-lg btn-danger pomodoro-stop {{#unless pomodoroTimer}} disabled {{/unless}}">Stop</button>
+            </div>
+            <div class="col-sm-4 form-group">
+                <button type="button" class="btn btn-block btn-lg btn-default pomodoro-reset">Reset</button>
+            </div>
 		</div>
-		<div class="pomodoro-buttons">
-			<button type="button" class="btn btn-lg btn-success pomodoro-start {{#if pomodoroTimer}} disabled {{/if}}">Start</button>
-			<button type="button" class="btn btn-lg btn-danger pomodoro-stop {{#unless pomodoroTimer}} disabled {{/unless}}">Stop</button>
-			<button type="button" class="btn btn-lg btn-default pomodoro-reset">Reset</button>
-		</div>
-		<div class="pomodoro-buttons pomodoro-buttons-types">
-			<button type="button" class="btn btn-lg btn-danger pomodoro-change-type {{#if timerTypeCompare 'POMODORO_TIME' }} disabled {{/if}}" data-type="POMODORO_TIME">Pomodoro</button>
-			<button type="button" class="btn btn-lg btn-default pomodoro-change-type {{#if timerTypeCompare 'SHORT_BREAK_TIME' }} disabled {{/if}}" data-type="SHORT_BREAK_TIME">Short Break</button>
-			<button type="button" class="btn btn-lg btn-default pomodoro-change-type {{#if timerTypeCompare 'LONG_BREAK_TIME' }} disabled {{/if}}" data-type="LONG_BREAK_TIME">Long Break</button>
+		<div class="pomodoro-buttons pomodoro-buttons-types row">
+            <div class="col-sm-4 form-group">
+                <button type="button" class="btn btn-block btn btn-danger pomodoro-change-type {{#if timerTypeCompare 'POMODORO_TIME' }} disabled {{/if}}" data-type="POMODORO_TIME">Pomodoro</button>
+            </div>
+            <div class="col-sm-4 form-group">
+                <button type="button" class="btn btn-block btn btn-default pomodoro-change-type {{#if timerTypeCompare 'SHORT_BREAK_TIME' }} disabled {{/if}}" data-type="SHORT_BREAK_TIME">Short Break</button>
+            </div>
+            <div class="col-sm-4 form-group">
+                <button type="button" class="btn btn-block btn btn-default pomodoro-change-type {{#if timerTypeCompare 'LONG_BREAK_TIME' }} disabled {{/if}}" data-type="LONG_BREAK_TIME">Long Break</button>
+            </div>
 		</div>
 	</div>	
 </template>
