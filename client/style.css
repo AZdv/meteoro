@@ -39,14 +39,17 @@
 	text-align: center;
 }
 .pomodoro-time {
-	width: 500px;
+	width: auto;
+	max-width: 500px;
 	height: 500px;
 	margin: 20px auto;
 }
 .pomodoro-tomato-empty-pic, .pomodoro-tomato-pic {
 	position: absolute;
-	width: 500px;
+	width: 92%; /* since absolute elements don't respect padding, this value has been picked by experiment */
+	max-width: 500px;
 	height: 500px;
+	background-position: center top;
 }
 .pomodoro-current-time {
 	position: relative;
@@ -59,6 +62,7 @@
 .pomodoro-tomato-empty-pic {
 	background-image: url( 'images/tomato_empty.png' );
 }
+/*
 .pomodoro-buttons button {
 	margin-right: 20px;
 }
@@ -68,6 +72,7 @@
 .pomodoro-buttons-types {
 	margin-top: 30px;
 }
+*/
 .btn:focus,
 .btn:active:focus,
 .btn.active:focus,
